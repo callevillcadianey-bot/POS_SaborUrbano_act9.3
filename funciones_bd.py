@@ -23,7 +23,8 @@ def inicializar_bd():
 	"FECHA"	TEXT NOT NULL,
 	"MONTO_TOTAL"	REAL NOT NULL,
 	PRIMARY KEY("FECHA")
-)    """)
+)   
+ """)
     
     conexion.commit()
     conexion.close()
@@ -45,10 +46,10 @@ def cargar_monto_diario():
     else:
         # TODO 3: Si no hay registro para hoy (fila is None), inserta una nueva fila
         # con la fecha de hoy y monto_total en 0.0, luego haz commit.
-        # Pista: INSERT INTO resumen_diario (fecha, monto_total) VALUES (?, ?)
-        pass
         monto = 0.0
-        
+        cursor.execute ("INSERT INTO resumen_diario (fecha, monto_total) VALUES (?, ?)" , (hoy,monto))
+
+    conexion.commit()
     conexion.close()
     return monto
 
@@ -59,7 +60,7 @@ def guardar_monto_diario(nuevo_monto):
     cursor = conexion.cursor()
     
     # TODO 4: Actualiza el campo 'monto_total' con 'nuevo_monto' para la fecha 'hoy'.
-    # Pista: UPDATE resumen_diario SET monto_total = ? WHERE fecha = ?
+    cursor.execute ("UPDATE resumen_diario SET monto_total = ? WHERE fecha = ?", (nuevo_monto,hoy))
     
     conexion.commit()
     conexion.close()

@@ -3,9 +3,17 @@
 # ==========================================
 from funciones_interfaz import *
 from funciones_ventas import *
+from funciones_bd import *
 
 def iniciar_caja():
-    monto_total_diario = 0.0
+
+    inicializar_bd()
+    monto_total_diario = cargar_monto_diario()
+    print("===================================")
+    print("   SISTEMA SABOR URBANO")
+    print("===================================")
+    print("El saldo recuperado al abrir el sistema es:", monto_total_diario)
+
     caja_abierta = True
 
     while caja_abierta:
@@ -13,6 +21,7 @@ def iniciar_caja():
 
         if opcion == "1":
             monto_total_diario += procesar_venta()
+            guardar_monto_diario(monto_total_diario)             
         elif opcion == "2":
             imprimir_separador()
             print("TOTAL ACUMULADO DEL DÍA")
@@ -20,6 +29,7 @@ def iniciar_caja():
         elif opcion == "3":
             imprimir_separador()
             print("CERRAR CAJA Y SALIR")
+            guardar_monto_diario(monto_total_diario)
             print(f"Balance final del día: ${monto_total_diario:.0f}")
             print("Gracias por usar el sistema de 'Sabor Urbano'. ¡Hasta luego!")
             caja_abierta = False
